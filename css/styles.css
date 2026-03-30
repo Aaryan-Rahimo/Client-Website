@@ -1,0 +1,125 @@
+@font-face {
+  font-family: 'Creato Display';
+  src: url('../media/fonts/CreatoDisplay-Bold.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Creato Display';
+  src: url('../media/fonts/CreatoDisplay-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Creato Display';
+  src: url('../media/fonts/CreatoDisplay-Light.otf');
+  font-weight: light;
+  font-style: normal;
+}
+
+html {
+  font-family: 'Creato Display', sans-serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #eef5dbff;
+  margin: 0;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-left p{
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-center ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.navbar-center ul li {
+  margin: 0 1rem;
+}
+
+.navbar-center ul li a {
+  text-decoration: none;
+  color: #333745ff;
+}
+
+.navbar-right button {
+  background-color: #333745ff;
+  color: #eef5dbff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* 
+--jet-black: #333745ff;
+--magenta-bloom: #e63462ff;
+--vibrant-coral: #fe5f55ff;
+--tea-green: #c7efcfff;
+--beige: #eef5dbff;
+
+--jet-black: hsla(227, 15%, 24%, 1);
+--magenta-bloom: hsla(344, 78%, 55%, 1);
+--vibrant-coral: hsla(4, 99%, 66%, 1);
+--tea-green: hsla(132, 56%, 86%, 1);
+--beige: hsla(76, 57%, 91%, 1);
+
+$jet-black: #333745ff;
+$magenta-bloom: #e63462ff;
+$vibrant-coral: #fe5f55ff;
+$tea-green: #c7efcfff;
+$beige: #eef5dbff;
+
+$jet-black: hsla(227, 15%, 24%, 1);
+$magenta-bloom: hsla(344, 78%, 55%, 1);
+$vibrant-coral: hsla(4, 99%, 66%, 1);
+$tea-green: hsla(132, 56%, 86%, 1);
+$beige: hsla(76, 57%, 91%, 1);
+
+$jet-black: rgba(51, 55, 69, 1);
+$magenta-bloom: rgba(230, 52, 98, 1);
+$vibrant-coral: rgba(254, 95, 85, 1);
+$tea-green: rgba(199, 239, 207, 1);
+$beige: rgba(238, 245, 219, 1);
+
+$gradient-top: linear-gradient(0deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-right: linear-gradient(90deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-bottom: linear-gradient(180deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-left: linear-gradient(270deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-top-right: linear-gradient(45deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-bottom-right: linear-gradient(135deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-top-left: linear-gradient(225deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-bottom-left: linear-gradient(315deg, #333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+$gradient-radial: radial-gradient(#333745ff, #e63462ff, #fe5f55ff, #c7efcfff, #eef5dbff);
+*/
