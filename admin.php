@@ -56,10 +56,6 @@ $timeSlots = appointment_time_slots();
   <nav class="navbar" id="navbar" aria-label="Main navigation">
     <a href="index.php" class="navbar__logo">Ruby Suresh Dental</a>
     <ul class="navbar__links admin-navlinks">
-      <li><a href="index.php#hero">Home</a></li>
-      <li><a href="index.php#about">About</a></li>
-      <li><a href="index.php#services">Services</a></li>
-      <li><a href="index.php#contact">Contact</a></li>
       <li><a href="admin.php" aria-current="page">Dashboard</a></li>
       <li><a href="appointments.php">Appointments</a></li>
       <li><a href="messages.php">Messages</a></li>
@@ -232,19 +228,17 @@ $timeSlots = appointment_time_slots();
                   <th scope="col">Patient</th>
                   <th scope="col">Subject</th>
                   <th scope="col">Time</th>
-                  <th scope="col">Priority</th>
                 </tr>
               </thead>
               <tbody>
                 <?php if (count($recentMsgs) === 0): ?>
-                  <tr><td colspan="4">No messages yet.</td></tr>
+                  <tr><td colspan="3">No messages yet.</td></tr>
                 <?php else: ?>
                   <?php foreach ($recentMsgs as $m): ?>
                     <tr>
                       <td><?= h($m['name']) ?></td>
                       <td><?= h((string) ($m['subject'] ?? '')) ?></td>
                       <td><?= h(date('g:i A', strtotime($m['created_at']))) ?></td>
-                      <td><span class="<?= h(message_priority_tag_class($m['priority'])) ?>"><?= h($m['priority']) ?></span></td>
                     </tr>
                   <?php endforeach; ?>
                 <?php endif; ?>
@@ -256,51 +250,7 @@ $timeSlots = appointment_time_slots();
           </div>
         </section>
 
-        <section class="admin-panel" aria-labelledby="pending-requests-heading">
-          <h2 class="admin-panel__title" id="pending-requests-heading">Pending Appointment Requests</h2>
-          <div class="admin-table-wrap">
-            <table class="admin-table" id="pending-table">
-              <thead>
-                <tr>
-                  <th scope="col">Patient</th>
-                  <th scope="col">Date/Time Request</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="pending-tbody">
-                <?php if (count($pendingAppts) === 0): ?>
-                  <tr><td colspan="4">No pending requests.</td></tr>
-                <?php else: ?>
-                  <?php foreach ($pendingAppts as $p): ?>
-                    <tr>
-                      <td><?= h($p['patient_name']) ?></td>
-                      <td><?= h(format_date_long($p['date']) . ', ' . format_time_ampm($p['time_start'])) ?></td>
-                      <td><span class="<?= h(appointment_status_tag_class($p['status'])) ?>"><?= h($p['status']) ?></span></td>
-                      <td>
-                        <div class="admin-actions">
-                          <form method="post" action="actions/approve_appointment.php" style="display:inline;">
-                            <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
-                            <input type="hidden" name="appointment_id" value="<?= h((string) $p['appointment_id']) ?>" />
-                            <button type="submit" class="admin-action admin-action--approve" style="text-decoration:none;">[Approve]</button>
-                          </form>
-                          <form method="post" action="actions/decline_appointment.php" style="display:inline;">
-                            <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
-                            <input type="hidden" name="appointment_id" value="<?= h((string) $p['appointment_id']) ?>" />
-                            <button type="submit" class="admin-action admin-action--decline" style="text-decoration:none;">[Decline]</button>
-                          </form>
-                        </div>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </tbody>
-            </table>
-          </div>
-          <div class="admin-panel__footer admin-panel__footer--center">
-            <a href="appointments.php" class="btn-primary">Review All Requests</a>
-          </div>
-        </section>
+       
       </div>
     </div>
   </main>

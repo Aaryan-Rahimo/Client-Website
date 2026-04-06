@@ -71,7 +71,7 @@ $reviewOk  = ($successParam === 'review');
   <header class="hero" id="hero">
     <div class="hero__content">
       <h1>Your Smile, Our Priority</h1>
-      <p>Welcome to Ruby Suresh Dental Clinic — where advanced dental care meets a warm, patient-first approach. We're here to help you achieve the healthy, confident smile you deserve.</p>
+      <p>Welcome to Ruby Suresh Dental Clinic, where advanced dental care meets a warm, patient-first approach. We're here to help you achieve the healthy, confident smile you deserve.</p>
       <a href="#appointment" class="btn-primary">Book an Appointment</a>
     </div>
     <div class="hero__avatar" aria-label="Doctor portrait placeholder"></div>
@@ -87,7 +87,7 @@ $reviewOk  = ($successParam === 'review');
     </div>
     <div class="about__text">
       <h2>About</h2>
-      <p>At Ruby Suresh Dental Clinic, we believe every patient deserves exceptional care in a comfortable environment. Our experienced team uses the latest technology and techniques to provide comprehensive dental services — from routine cleanings and check-ups to advanced cosmetic and restorative treatments.</p>
+      <p>At Ruby Suresh Dental Clinic, we believe every patient deserves exceptional care in a comfortable environment. Our experienced team uses the latest technology and techniques to provide comprehensive dental services, from routine cleanings and check-ups to advanced cosmetic and restorative treatments.</p>
       <p style="margin-top:12px;">With a commitment to gentle, compassionate dentistry, Dr. Ruby Suresh and her team have been serving families for over a decade, building lasting relationships based on trust and outstanding results.</p>
     </div>
   </section>

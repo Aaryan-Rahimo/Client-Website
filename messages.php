@@ -51,7 +51,6 @@ $msg = $db->query('SELECT * FROM messages ORDER BY is_read ASC, created_at DESC'
               <th>Name</th>
               <th>Email</th>
               <th>Subject</th>
-              <th>Priority</th>
               <th>Date</th>
               <th>Status</th>
               <th>Actions</th>
@@ -70,7 +69,6 @@ $msg = $db->query('SELECT * FROM messages ORDER BY is_read ASC, created_at DESC'
                   <div><?= h((string) ($m['subject'] ?? '')) ?></div>
                   <div class="msg-body-preview" title="<?= h($m['body']) ?>"><?= h($m['body']) ?></div>
                 </td>
-                <td><span class="<?= h(message_priority_tag_class($m['priority'])) ?>"><?= h($m['priority']) ?></span></td>
                 <td><?= h(date('M j, Y g:i A', strtotime($m['created_at']))) ?></td>
                 <td><?= $unread ? '<span class="tag admin-tag--pending">Unread</span>' : '<span class="tag admin-tag--confirmed">Read</span>' ?></td>
                 <td>
@@ -93,7 +91,7 @@ $msg = $db->query('SELECT * FROM messages ORDER BY is_read ASC, created_at DESC'
               </tr>
             <?php endforeach; ?>
             <?php if (count($msg) === 0): ?>
-              <tr><td colspan="7">No messages.</td></tr>
+              <tr><td colspan="6">No messages.</td></tr>
             <?php endif; ?>
           </tbody>
         </table>
