@@ -20,9 +20,10 @@ require_once __DIR__ . '/../includes/helpers.php';
 require_admin();
 verify_csrf();
 
-$id = (int) ($_POST['appointment_id'] ?? 0);
-$returnTo = trim((string) ($_POST['return_to'] ?? 'admin'));
-$declineNote = trim((string) ($_POST['notes'] ?? ''));
+$id = request_post_int('appointment_id');
+$returnTo = request_post_string('return_to');
+$returnTo = $returnTo !== '' ? $returnTo : 'admin';
+$declineNote = request_post_string('notes');
 $target = ($returnTo === 'appointments') ? '../appointments.php' : '../admin.php';
 if ($id <= 0) {
     header('Location: ' . $target);

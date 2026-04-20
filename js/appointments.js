@@ -3,7 +3,7 @@
  * Date Created: 2026-04-05
  * Description: Frontend interactions for appointment management actions in admin appointments page, including dynamic time slot loading and declination note handling.
  */
-document.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("load", function () {
   const dateInput = document.getElementById("appt_date");
   const timeSelect = document.getElementById("time_start");
   const bookingForm = document.getElementById("bookingForm");
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (isToday) {
           const [hours, minutes] = timeValue.split(':');
           const slotTime = new Date();
-          slotTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+          slotTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
 
           if (slotTime < now) {
             disabled = "disabled";

@@ -4,12 +4,12 @@
  * Description: Frontend interactions for appointment management actions in admin appointments page, including declination note handling, reschedule/complete/notes toggling, and profile menu behavior.
  */
 
-(function () {
-  var declineBackdrop = document.getElementById('decline-modal-backdrop');
-  var declineCancel = document.getElementById('decline-modal-cancel');
-  var declineConfirm = document.getElementById('decline-modal-confirm');
-  var declineNoteInput = document.getElementById('decline-note-input');
-  var pendingDeclineForm = null;
+window.addEventListener('load', function () {
+  const declineBackdrop = document.getElementById('decline-modal-backdrop');
+  const declineCancel = document.getElementById('decline-modal-cancel');
+  const declineConfirm = document.getElementById('decline-modal-confirm');
+  const declineNoteInput = document.getElementById('decline-note-input');
+  let pendingDeclineForm = null;
 
   function closeDeclineModal() {
     if (!declineBackdrop) {
@@ -46,7 +46,7 @@
     if (declineConfirm) {
       declineConfirm.addEventListener('click', function () {
         if (pendingDeclineForm) {
-          var noteField = pendingDeclineForm.querySelector('input[name="notes"]');
+          const noteField = pendingDeclineForm.querySelector('input[name="notes"]');
           if (noteField && declineNoteInput) {
             noteField.value = declineNoteInput.value.trim();
           }
@@ -58,8 +58,8 @@
 
   document.querySelectorAll('.js-toggle-reschedule').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var id = btn.getAttribute('data-target');
-      var row = document.querySelector('.js-reschedule-' + id);
+      const id = btn.getAttribute('data-target');
+      const row = document.querySelector('.js-reschedule-' + id);
       if (!row) {
         return;
       }
@@ -69,8 +69,8 @@
 
   document.querySelectorAll('.js-toggle-complete').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var id = btn.getAttribute('data-target');
-      var row = document.querySelector('.js-complete-' + id);
+      const id = btn.getAttribute('data-target');
+      const row = document.querySelector('.js-complete-' + id);
       if (!row) {
         return;
       }
@@ -80,12 +80,12 @@
 
   document.querySelectorAll('.js-toggle-notes').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var id = btn.getAttribute('data-target');
-      var row = document.querySelector('.js-notes-' + id);
+      const id = btn.getAttribute('data-target');
+      const row = document.querySelector('.js-notes-' + id);
       if (!row) {
         return;
       }
       row.classList.toggle('subrow-hidden');
     });
   });
-})();
+});

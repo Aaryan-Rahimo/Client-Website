@@ -9,6 +9,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/helpers.php';
 
 header('Content-Type: application/json');
 
@@ -17,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-$date = $_GET['date'] ?? '';
+$date = request_get_string('date');
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
     echo json_encode([]);
     exit;

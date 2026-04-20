@@ -88,6 +88,9 @@ $timeSlots = appointment_time_slots();
     <?php if (($_GET['error'] ?? '') === 'checkin_early'): ?>
       <div class="flash" style="background:#fdecea;color:#9B1B30;border:1px solid rgba(155,27,48,0.25);">Check-in opens 30 minutes before appointment time.</div>
     <?php endif; ?>
+    <?php if (($_GET['error'] ?? '') === 'past_date'): ?>
+      <div class="flash" style="background:#fdecea;color:#9B1B30;border:1px solid rgba(155,27,48,0.25);">Reschedule date cannot be earlier than today.</div>
+    <?php endif; ?>
 
     <header class="admin-top" aria-label="Dashboard header">
       <div class="admin-top__titles">
@@ -95,10 +98,6 @@ $timeSlots = appointment_time_slots();
         <p>Welcome back, Ruby!</p>
       </div>
       <div class="admin-top__controls">
-        <div class="admin-search">
-          <label class="visually-hidden" for="admin-search">Search Patients, Appointments</label>
-          <input type="search" id="admin-search" placeholder="Search Patients, Appointments…" autocomplete="off" />
-        </div>
         <div class="admin-profile">
           <button type="button" class="admin-profile__trigger" id="admin-profile-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="admin-profile-menu">
             <span class="admin-profile__avatar" aria-hidden="true"></span>
@@ -123,7 +122,6 @@ $timeSlots = appointment_time_slots();
           <p class="admin-stat-card__label">Today&rsquo;s Appointments</p>
           <div class="admin-stat-card__value-row">
             <span class="admin-stat-card__value"><?= h((string) $todayCount) ?></span>
-            <span class="admin-stat-card__delta">+/- 5%</span>
           </div>
         </div>
       </article>
@@ -260,7 +258,7 @@ $timeSlots = appointment_time_slots();
                             <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
                             <input type="hidden" name="appointment_id" value="<?= h((string) $a['appointment_id']) ?>" />
                             <input type="hidden" name="return_to" value="admin" />
-                            <input type="date" name="new_date" value="<?= h($a['date']) ?>" required />
+                            <input type="date" name="new_date" value="<?= h($a['date']) ?>" min="<?= h($today) ?>" required />
                             <select name="new_time" required>
                               <?php foreach ($timeSlots as $val => $lab): ?>
                                 <option value="<?= h($val) ?>" <?= $a['time_start'] === $val ? ' selected' : '' ?>><?= h($lab) ?></option>
@@ -273,7 +271,7 @@ $timeSlots = appointment_time_slots();
                             <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
                             <input type="hidden" name="appointment_id" value="<?= h((string) $a['appointment_id']) ?>" />
                             <input type="hidden" name="return_to" value="admin" />
-                            <input type="date" name="new_date" value="<?= h($a['date']) ?>" required />
+                            <input type="date" name="new_date" value="<?= h($a['date']) ?>" min="<?= h($today) ?>" required />
                             <select name="new_time" required>
                               <?php foreach ($timeSlots as $val => $lab): ?>
                                 <option value="<?= h($val) ?>" <?= $a['time_start'] === $val ? ' selected' : '' ?>><?= h($lab) ?></option>
@@ -282,7 +280,6 @@ $timeSlots = appointment_time_slots();
                             <button type="submit" class="btn-secondary">Reschedule</button>
                           </form>
                         <?php elseif ($a['status'] === 'Checked In'): ?>
-                          <!-- NEW: After check-in, only completion with notes remains -->
                           <form method="post" action="actions/complete_appointment.php" class="admin-inline-form" style="margin-top:0;">
                             <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
                             <input type="hidden" name="appointment_id" value="<?= h((string) $a['appointment_id']) ?>" />

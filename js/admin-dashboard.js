@@ -4,20 +4,20 @@
  * Description: Frontend interactions for the admin dashboard page.
  */
 
-(function () {
-  var profileTrigger = document.getElementById("admin-profile-trigger");
-  var profileMenu = document.getElementById("admin-profile-menu");
-  var searchInput = document.getElementById("admin-search");
-  var appointmentsTbody = document.getElementById("appointments-tbody");
+window.addEventListener("load", function () {
+  const profileTrigger = document.getElementById("admin-profile-trigger");
+  const profileMenu = document.getElementById("admin-profile-menu");
+  const searchInput = document.getElementById("admin-search");
+  const appointmentsTbody = document.getElementById("appointments-tbody");
 
   document.querySelectorAll('.js-admin-decline-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var note = window.prompt('Add a declination note (optional):', '');
+      const note = window.prompt('Add a declination note (optional):', '');
       if (note === null) {
         return;
       }
-      var noteField = form.querySelector('input[name="notes"]');
+      const noteField = form.querySelector('input[name="notes"]');
       if (noteField) {
         noteField.value = note.trim();
       }
@@ -35,7 +35,7 @@
   if (profileTrigger && profileMenu) {
     profileTrigger.addEventListener("click", function (e) {
       e.stopPropagation();
-      var open = !profileMenu.classList.contains("is-open");
+      const open = !profileMenu.classList.contains("is-open");
       profileMenu.classList.toggle("is-open", open);
       profileTrigger.setAttribute("aria-expanded", open ? "true" : "false");
     });
@@ -47,14 +47,14 @@
 
   if (searchInput && appointmentsTbody) {
     searchInput.addEventListener("input", function () {
-      var q = searchInput.value.trim().toLowerCase();
-      var rows = appointmentsTbody.querySelectorAll("tr");
+      const q = searchInput.value.trim().toLowerCase();
+      const rows = appointmentsTbody.querySelectorAll("tr");
       rows.forEach(function (tr) {
-        var nameCell = tr.querySelector("[data-patient-name]");
-        var text = nameCell ? nameCell.textContent.trim().toLowerCase() : "";
-        var hide = q !== "" && text.indexOf(q) === -1;
+        const nameCell = tr.querySelector("[data-patient-name]");
+        const text = nameCell ? nameCell.textContent.trim().toLowerCase() : "";
+        const hide = q !== "" && text.indexOf(q) === -1;
         tr.classList.toggle("row-hidden", hide);
       });
     });
   }
-})();
+});

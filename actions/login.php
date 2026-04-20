@@ -18,8 +18,8 @@ require_once __DIR__ . '/../includes/helpers.php';
 
 verify_csrf();
 
-$email = trim((string) ($_POST['email'] ?? ''));
-$pass  = (string) ($_POST['password'] ?? '');
+$email = request_post_string('email');
+$pass  = request_post_string('password');
 
 if ($email === '' || $pass === '') {
     header('Location: ../login.php?error=1');

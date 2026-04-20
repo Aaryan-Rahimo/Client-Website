@@ -4,14 +4,14 @@
  * Description: Frontend interactions for full-message modal behavior in admin messages page.
  */
 
-(function () {
-  var modal = document.getElementById('msg-modal');
-  var closeBtn = document.getElementById('msg-modal-close');
-  var title = document.getElementById('msg-modal-title');
-  var from = document.getElementById('msg-modal-from');
-  var email = document.getElementById('msg-modal-email');
-  var date = document.getElementById('msg-modal-date');
-  var body = document.getElementById('msg-modal-body');
+window.addEventListener('load', function () {
+  const modal = document.getElementById('msg-modal');
+  const closeBtn = document.getElementById('msg-modal-close');
+  const title = document.getElementById('msg-modal-title');
+  const from = document.getElementById('msg-modal-from');
+  const email = document.getElementById('msg-modal-email');
+  const date = document.getElementById('msg-modal-date');
+  const body = document.getElementById('msg-modal-body');
 
   function closeModal() {
     if (!modal) {
@@ -51,4 +51,4 @@
       closeModal();
     }
   });
-})();
+});

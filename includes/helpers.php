@@ -25,11 +25,30 @@ function verify_csrf(): void
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $token = $_POST['csrf'] ?? '';
+    $token = (string) (filter_input(INPUT_POST, 'csrf', FILTER_UNSAFE_RAW) ?? '');
+    $token = trim($token);
     if ($token === '' || !hash_equals($_SESSION['csrf'] ?? '', $token)) {
         http_response_code(403);
         die('Invalid CSRF token.');
     }
+}
+
+function request_post_string(string $key): string
+{
+    $value = filter_input(INPUT_POST, $key, FILTER_UNSAFE_RAW);
+    return trim((string) ($value ?? ''));
+}
+
+function request_get_string(string $key): string
+{
+    $value = filter_input(INPUT_GET, $key, FILTER_UNSAFE_RAW);
+    return trim((string) ($value ?? ''));
+}
+
+function request_post_int(string $key): int
+{
+    $value = filter_input(INPUT_POST, $key, FILTER_VALIDATE_INT);
+    return ($value === false || $value === null) ? 0 : (int) $value;
 }
 
 

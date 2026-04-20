@@ -22,13 +22,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
 verify_csrf();
 
-$patient_name  = trim((string) ($_POST['patient_name'] ?? ''));
-$patient_email = trim((string) ($_POST['patient_email'] ?? ''));
-$patient_phone = trim((string) ($_POST['patient_phone'] ?? ''));
-$date          = trim((string) ($_POST['date'] ?? ''));
-$time_start    = trim((string) ($_POST['time_start'] ?? ''));
-$type          = trim((string) ($_POST['type'] ?? ''));
-$notes         = trim((string) ($_POST['notes'] ?? ''));
+$patient_name  = request_post_string('patient_name');
+$patient_email = request_post_string('patient_email');
+$patient_phone = request_post_string('patient_phone');
+$date          = request_post_string('date');
+$time_start    = request_post_string('time_start');
+$type          = request_post_string('type');
+$notes         = request_post_string('notes');
 
 $_SESSION['book_old'] = [
     'patient_name' => $patient_name,

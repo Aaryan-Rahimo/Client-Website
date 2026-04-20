@@ -62,7 +62,7 @@ declare(strict_types=1);
                 <li>In the appointments section, it shows the following information about the appointments: Name, Email, Phone, Date and Time, Type, Status and Actions</li>
                 <li>The Admin can filter by Status, From and To some time and lastly, by Patient Name</li>
                 <li>A pending appointment can be be confirmed, declined or rescheduled.</li>
-                <li>Once an appointment is confirmed, it awaits to be checked in, reschedule again or declined. The appointment can only be checked in 30 minutes prior to the appointment time</li>
+                <li>Once an appointment is confirmed, it awaits to be checked in, reschedule again or declined. <strong>NOTE:</strong> The appointment can only be checked in 30 minutes prior to the appointment time</li>
                 <li>Once checked-in, an appointment can be completed, where the dentist can add any aditional notes.</li>
                 <li>The notes of completeted appointments can have their notes viewd by clicked the notes button.</li>
               </ul>
@@ -81,6 +81,7 @@ declare(strict_types=1);
           <li>On Home, test the About, Reviews, and Contact sections and confirm layout responsiveness.</li>
           <li>Submit a review and confirm it appears in the reviews list.</li>
           <li>Book an appointment and test required-field validations and already-booked time protection.</li>
+          <li><strong>NOTE:</strong>If you attempt to use the check-in feature, make sure your appointment is within 30 minutes of the booked time.</li>
           <li>Send a contact message and confirm it appears in Admin Messages.</li>
           <li>Open Admin and test appointment actions: confirm, decline, reschedule, check-in, and complete with notes.</li>
           <li>Open Patients and verify patient list with appointment counts.</li>

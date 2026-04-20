@@ -20,14 +20,26 @@ require_once __DIR__ . '/../includes/helpers.php';
 require_admin();
 verify_csrf();
 
-$id       = (int) ($_POST['appointment_id'] ?? 0);
-$new_date = trim((string) ($_POST['new_date'] ?? ''));
-$new_time = trim((string) ($_POST['new_time'] ?? ''));
-$returnTo = trim((string) ($_POST['return_to'] ?? 'appointments'));
+$id       = request_post_int('appointment_id');
+$new_date = request_post_string('new_date');
+$new_time = request_post_string('new_time');
+$returnTo = request_post_string('return_to');
+$returnTo = $returnTo !== '' ? $returnTo : 'appointments';
 $target = ($returnTo === 'admin') ? '../admin.php' : '../appointments.php';
 
 if ($id <= 0 || $new_date === '' || $new_time === '') {
     header('Location: ' . $target . '?error=missing_fields');
+    exit;
+}
+
+if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $new_date) !== 1) {
+    header('Location: ' . $target . '?error=missing_fields');
+    exit;
+}
+
+$today = date('Y-m-d');
+if ($new_date < $today) {
+    header('Location: ' . $target . '?error=past_date');
     exit;
 }
 

@@ -13,9 +13,9 @@ function get_db(): PDO
     static $pdo = null;
     if ($pdo === null) {
         $host    = 'localhost';
-        $db      = 'clinic_db';
-        $user    = 'root';
-        $pass    = '';
+        $db      = 'rahima33_db';
+        $user    = 'rahima33_local';
+        $pass    = 'tiVrkar4!@';
         $charset = 'utf8mb4';
 
         $tempPdo = new PDO("mysql:host={$host};charset={$charset}", $user, $pass, [

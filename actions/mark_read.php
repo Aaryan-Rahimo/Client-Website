@@ -20,7 +20,7 @@ require_once __DIR__ . '/../includes/helpers.php';
 require_admin();
 verify_csrf();
 
-$id = (int) ($_POST['message_id'] ?? 0);
+$id = request_post_int('message_id');
 if ($id <= 0) {
     header('Location: ../messages.php');
     exit;

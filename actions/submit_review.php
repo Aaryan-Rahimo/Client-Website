@@ -18,9 +18,9 @@ require_once __DIR__ . '/../includes/helpers.php';
 
 verify_csrf();
 
-$name   = trim((string) ($_POST['name'] ?? ''));
-$body   = trim((string) ($_POST['body'] ?? ''));
-$rating = isset($_POST['rating']) ? (int) $_POST['rating'] : 0;
+$name   = request_post_string('name');
+$body   = request_post_string('body');
+$rating = request_post_int('rating');
 
 if ($name === '' || $body === '' || $rating < 1 || $rating > 5) {
     header('Location: ../index.php?error=review#reviews');

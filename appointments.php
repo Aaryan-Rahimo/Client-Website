@@ -53,6 +53,7 @@ function split_appointment_notes(?string $raw): array
 }
 
 $db = get_db();
+$today = date('Y-m-d');
 
 $statusFilter = trim((string) ($_GET['status'] ?? 'All'));
 $dateFrom     = trim((string) ($_GET['date_from'] ?? ''));
@@ -170,6 +171,8 @@ $flashError   = $_GET['error'] ?? '';
       <div class="flash flash--err">That date and time is already taken. Please choose another slot.</div>
     <?php elseif ($flashError === 'missing_fields'): ?>
       <div class="flash flash--err">Please fill in the new date and time.</div>
+    <?php elseif ($flashError === 'past_date'): ?>
+      <div class="flash flash--err">Reschedule date cannot be earlier than today.</div>
     <?php elseif ($flashError === 'checkin_early'): ?>
       <div class="flash flash--err">Check-in opens 30 minutes before appointment time.</div>
     <?php endif; ?>
@@ -292,7 +295,7 @@ $flashError   = $_GET['error'] ?? '';
                     <input type="hidden" name="csrf" value="<?= h(csrf_token()) ?>" />
                     <input type="hidden" name="appointment_id" value="<?= h((string) $a['appointment_id']) ?>" />
                     <input type="hidden" name="return_to" value="appointments" />
-                    <label>New date <input type="date" name="new_date" value="<?= h($a['date']) ?>" required /></label>
+                    <label>New date <input type="date" name="new_date" value="<?= h($a['date']) ?>" min="<?= h($today) ?>" required /></label>
                     <label>New time
                       <select name="new_time" required>
                         <?php foreach ($timeSlots as $val => $lab): ?>

@@ -22,10 +22,10 @@ require_once __DIR__ . '/../includes/helpers.php';
 
 verify_csrf();
 
-$name    = trim((string) ($_POST['name'] ?? ''));
-$email   = trim((string) ($_POST['email'] ?? ''));
-$subject = trim((string) ($_POST['subject'] ?? ''));
-$body    = trim((string) ($_POST['body'] ?? ''));
+$name    = request_post_string('name');
+$email   = request_post_string('email');
+$subject = request_post_string('subject');
+$body    = request_post_string('body');
 
 $name    = str_replace(["\r", "\n"], '', $name);
 $email   = str_replace(["\r", "\n"], '', $email);
@@ -72,20 +72,32 @@ require_once __DIR__ . '/../PHPMailer-master/PHPMailer-master/src/Exception.php'
 $emailOk = false;
 
 try {
-    $mail = new PHPMailer(true); 
+  $smtpUser = trim((string) (getenv('MAIL_USERNAME') ?: ''));
+  $smtpPass = trim((string) (getenv('MAIL_PASSWORD') ?: ''));
+  $mailFrom = trim((string) (getenv('MAIL_FROM') ?: 'ruby@clinic.com'));
+  $mailFromName = trim((string) (getenv('MAIL_FROM_NAME') ?: 'Ephesians Dental'));
+  $mailTo = trim((string) (getenv('MAIL_TO') ?: ''));
+  $mailToName = trim((string) (getenv('MAIL_TO_NAME') ?: 'Clinic Admin'));
+
+  // Keep the app functional without exposing secrets in source code.
+  if ($smtpUser === '' || $smtpPass === '' || $mailTo === '') {
+    throw new RuntimeException('Mail environment variables are not configured.');
+  }
+
+  $mail = new PHPMailer(true);
 
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'aaryan.rahimo@gmail.com';   //User your own email here    
-    $mail->Password   = 'bmgs dimt hmxo aioo';          //Use your own app password here (shown how to get in README and help button)  
+  $mail->Username   = $smtpUser;
+  $mail->Password   = $smtpPass;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 
     /* ── Sender / recipient ── */
-    $mail->setFrom('ruby@clinic.com', 'Ephesians Dental');
-    $mail->addAddress('aaryan.rahimo@gmail.com', 'Ruby M. Suresh'); //Change to your Email
-    $mail->addReplyTo($email, $name);                         
+  $mail->setFrom($mailFrom, $mailFromName);
+  $mail->addAddress($mailTo, $mailToName);
+  $mail->addReplyTo($email, $name);
 
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
