@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Kissan
+ * Date Created: 2026-04-12
+ * Description: Appointment booking action for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -10,6 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 verify_csrf();
 
 $patient_name  = trim((string) ($_POST['patient_name'] ?? ''));
@@ -19,6 +29,16 @@ $date          = trim((string) ($_POST['date'] ?? ''));
 $time_start    = trim((string) ($_POST['time_start'] ?? ''));
 $type          = trim((string) ($_POST['type'] ?? ''));
 $notes         = trim((string) ($_POST['notes'] ?? ''));
+
+$_SESSION['book_old'] = [
+    'patient_name' => $patient_name,
+    'patient_email' => $patient_email,
+    'patient_phone' => $patient_phone,
+    'date' => $date,
+    'time_start' => $time_start,
+    'type' => $type,
+    'notes' => $notes,
+];
 
 if ($patient_name === '' || $patient_email === '' || $date === '' || $time_start === '' || $type === '') {
     header('Location: ../index.php?error=missing_fields#appointment');
@@ -51,17 +71,7 @@ $ins->execute([
     $notes !== '' ? $notes : null,
 ]);
 
-$prettyTime = format_time_ampm($time_start);
-$prettyDate = format_date_long($date);
-$body       = "Hi {$patient_name},\n\n"
-    . "Thank you for requesting an appointment at Ruby's Dental Clinic. We have received your request for {$prettyDate} at {$prettyTime} ({$type}). Dr. Ruby will confirm shortly.\n\n"
-    . "Best regards,\nRuby's Dental Clinic\n📞 905-000-0000";
-
-send_email(
-    $patient_email,
-    "Appointment Request Received — Ruby's Dental Clinic",
-    $body
-);
+unset($_SESSION['book_old']);
 
 header('Location: ../index.php?success=1#appointment');
 exit;

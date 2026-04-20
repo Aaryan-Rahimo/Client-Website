@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Aaryan
+ * Date Created: 2026-04-01
+ * Description: Authentication helper functions for the clinic web application, including login requirement checks and admin role verification.
+ */
+
 declare(strict_types=1);
 
 function login_page_url(): string

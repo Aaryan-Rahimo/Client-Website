@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Aaryan
+ * Date Created: 2026-04-05
+ * Description: Logout actions for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if (session_status() === PHP_SESSION_NONE) {

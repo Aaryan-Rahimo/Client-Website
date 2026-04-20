@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Angad and Inderbir
+ * Date Created: 2026-04-01
+ * Description: Submit review actions for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -17,7 +23,7 @@ $body   = trim((string) ($_POST['body'] ?? ''));
 $rating = isset($_POST['rating']) ? (int) $_POST['rating'] : 0;
 
 if ($name === '' || $body === '' || $rating < 1 || $rating > 5) {
-    header('Location: ../index.php?error=review#services');
+    header('Location: ../index.php?error=review#reviews');
     exit;
 }
 
@@ -26,5 +32,5 @@ ensure_reviews_table($db);
 $stmt = $db->prepare('INSERT INTO reviews (name, rating, body) VALUES (?, ?, ?)');
 $stmt->execute([$name, $rating, $body]);
 
-header('Location: ../index.php?success=review#services');
+header('Location: ../index.php?success=review#reviews');
 exit;

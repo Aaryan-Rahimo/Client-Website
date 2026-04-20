@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Aaryan, Kissan, Inderbir, Angad
+ * Date Created: 2026-04-04
+ * Description: Helper functions for the clinic web application, including CSRF token generation and verification, string sanitization, email sending, date/time formatting, appointment check-in logic, and CSS class mapping for
+ */
+
 declare(strict_types=1);
 
 function csrf_token(): string
@@ -13,6 +19,7 @@ function csrf_token(): string
     return $_SESSION['csrf'];
 }
 
+
 function verify_csrf(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -25,17 +32,13 @@ function verify_csrf(): void
     }
 }
 
-/**
- * Escape output for HTML.
- */
+
 function h(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
-/**
- * Sanitize plain text input (trim + HTML entities for storage display safety).
- */
+
 function clean_str(?string $value): string
 {
     return trim(htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'));
@@ -43,8 +46,8 @@ function clean_str(?string $value): string
 
 function send_email(string $to, string $subject, string $body, string $replyTo = ''): bool
 {
-    $from    = 'noreply@rubydental.com';
-    $headers = "From: Ruby's Dental Clinic <{$from}>\r\n";
+    $from    = 'noreply@ephesiansdental.com';
+    $headers = "From: Ephesians Dental <{$from}>\r\n";
     $headers .= 'Reply-To: ' . ($replyTo !== '' ? $replyTo : $from) . "\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers .= 'X-Mailer: PHP/' . phpversion();
@@ -70,6 +73,19 @@ function format_date_long(string $date): string
     return date('M j, Y', $ts);
 }
 
+function appointment_can_check_in(string $date, string $timeStart, ?DateTimeImmutable $now = null): bool
+{
+    $appointmentAt = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $date . ' ' . $timeStart);
+    if (!$appointmentAt) {
+        return false;
+    }
+
+    $current = $now ?? new DateTimeImmutable('now');
+    $openAt  = $appointmentAt->modify('-30 minutes');
+
+    return $current >= $openAt;
+}
+
 function appointment_status_tag_class(string $status): string
 {
     return match ($status) {
@@ -77,7 +93,8 @@ function appointment_status_tag_class(string $status): string
         'Confirmed'   => 'tag admin-tag--confirmed',
         'Rescheduled' => 'tag admin-tag--rescheduled',
         'Checked In'  => 'tag admin-tag--checked-in',
-        'Declined'    => 'tag admin-tag--priority-low',
+        'Completed'   => 'tag admin-tag--approved',
+        'Declined'    => 'tag admin-tag--declined',
         default       => 'tag admin-tag--priority-low',
     };
 }
@@ -92,23 +109,25 @@ function message_priority_tag_class(string $priority): string
     };
 }
 
-/**
- * @return array<string, string> value => label
- */
 function appointment_time_slots(): array
 {
     return [
-        '09:00:00' => '9:00 AM',
-        '09:30:00' => '9:30 AM',
         '10:00:00' => '10:00 AM',
         '10:30:00' => '10:30 AM',
         '11:00:00' => '11:00 AM',
+        '11:30:00' => '11:30 AM',
+        '12:00:00' => '12:00 PM',
+        '12:30:00' => '12:30 PM',
         '13:00:00' => '1:00 PM',
         '13:30:00' => '1:30 PM',
         '14:00:00' => '2:00 PM',
+        '14:30:00' => '2:30 PM',
         '15:00:00' => '3:00 PM',
+        '15:30:00' => '3:30 PM',
         '16:00:00' => '4:00 PM',
         '16:30:00' => '4:30 PM',
+        '17:00:00' => '5:00 PM',
+        '17:30:00' => '5:30 PM',
     ];
 }
 

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Aaryan and Angad
+ * Date Created: 2026-04-05
+ * Description: Login actions for the clinic website, handling user authentication by verifying credentials against the database and managing session state to maintain user login status across pages.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

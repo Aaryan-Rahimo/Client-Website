@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Team Kissan
+ * Date Created: 2026-04-14
+ * Description: Message deletion action for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -1,10 +1,13 @@
 <?php
 
+/*
+ * Author: Aaryan, Kissan, Inderbir, Angad
+ * Date Created: 2026-04-03
+ * Description: Database connection and setup functions for the clinic web application, including PDO initialization, table creation, and default admin user setup.
+ */
+
 declare(strict_types=1);
 
-/**
- * @return PDO
- */
 function get_db(): PDO
 {
     static $pdo = null;
@@ -14,6 +17,12 @@ function get_db(): PDO
         $user    = 'root';
         $pass    = '';
         $charset = 'utf8mb4';
+
+        $tempPdo = new PDO("mysql:host={$host};charset={$charset}", $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+        $tempPdo->exec("CREATE DATABASE IF NOT EXISTS `$db`");
+
         $dsn     = "mysql:host={$host};dbname={$db};charset={$charset}";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -21,13 +30,15 @@ function get_db(): PDO
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $pdo = new PDO($dsn, $user, $pass, $options);
+
+        try {
+            $pdo->exec("ALTER TABLE appointments MODIFY status ENUM('Pending','Confirmed','Rescheduled','Checked In','Completed','Declined') DEFAULT 'Pending'");
+        } catch (Throwable $e) {
+        }
     }
     return $pdo;
 }
 
-/**
- * Ensure the reviews table exists before reading/writing reviews.
- */
 function ensure_reviews_table(PDO $db): void
 {
     $db->exec("
@@ -41,9 +52,6 @@ function ensure_reviews_table(PDO $db): void
     ");
 }
 
-/**
- * Ensure the users table exists for authentication.
- */
 function ensure_users_table(PDO $db): void
 {
     $db->exec("
@@ -60,9 +68,6 @@ function ensure_users_table(PDO $db): void
     ");
 }
 
-/**
- * Seed the default admin user when users table is empty.
- */
 function ensure_default_admin_user(PDO $db): void
 {
     ensure_users_table($db);
@@ -77,7 +82,7 @@ function ensure_default_admin_user(PDO $db): void
          VALUES (?, ?, ?, ?, 'admin')"
     );
     $stmt->execute([
-        'Dr. Ruby Suresh',
+        'Dr. Ruby M. Suresh',
         'ruby@clinic.com',
         '905-000-0000',
         password_hash('admin123', PASSWORD_BCRYPT),

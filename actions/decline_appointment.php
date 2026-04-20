@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Angad and Inderbir
+ * Date Created: 2026-04-13
+ * Description: Appointment decline action for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -15,8 +21,11 @@ require_admin();
 verify_csrf();
 
 $id = (int) ($_POST['appointment_id'] ?? 0);
+$returnTo = trim((string) ($_POST['return_to'] ?? 'admin'));
+$declineNote = trim((string) ($_POST['notes'] ?? ''));
+$target = ($returnTo === 'appointments') ? '../appointments.php' : '../admin.php';
 if ($id <= 0) {
-    header('Location: ../admin.php');
+    header('Location: ' . $target);
     exit;
 }
 
@@ -26,28 +35,20 @@ $stmt->execute([$id]);
 $row = $stmt->fetch();
 
 if (!$row) {
-    header('Location: ../admin.php');
+    header('Location: ' . $target);
     exit;
 }
 
-$upd = $db->prepare('UPDATE appointments SET status = \'Declined\' WHERE appointment_id = ?');
-$upd->execute([$id]);
+$existingNotes = trim((string) ($row['notes'] ?? ''));
+$finalNotes = $existingNotes;
+if ($declineNote !== '') {
+    $stamp = date('Y-m-d H:i');
+    $entry = '[Declined ' . $stamp . '] ' . $declineNote;
+    $finalNotes = ($existingNotes === '') ? $entry : ($existingNotes . "\n" . $entry);
+}
 
-$prettyDate = format_date_long($row['date']);
-$prettyTime = format_time_ampm($row['time_start']);
-$name       = $row['patient_name'];
-$email      = $row['patient_email'];
+$upd = $db->prepare('UPDATE appointments SET status = \'Declined\', notes = ? WHERE appointment_id = ?');
+$upd->execute([$finalNotes, $id]);
 
-$body = "Hi {$name},\n\n"
-    . "We're sorry, but we could not accommodate your appointment request for {$prettyDate} at {$prettyTime}. "
-    . "Please visit our website or call Ruby's Dental Clinic to choose another time — we'd still love to see you.\n\n"
-    . "Best regards,\nRuby's Dental Clinic\n📞 905-000-0000";
-
-send_email(
-    $email,
-    "Appointment Update — Ruby's Dental Clinic",
-    $body
-);
-
-header('Location: ../admin.php');
+header('Location: ' . $target . '?success=declined');
 exit;

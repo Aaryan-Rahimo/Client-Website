@@ -1,4 +1,8 @@
-/* Dashboard / admin — scoped styles only; use with css/styles.css */
+/*
+ * Author: Angad
+ * Date Created: 2026-04-02
+ * Description: Admin side styling for the clinic website
+ */
 
 .visually-hidden {
   position: absolute;
@@ -17,6 +21,19 @@
   background: #fdf0f0;
 }
 
+.admin-page form,
+.admin-page label,
+.admin-page input,
+.admin-page select,
+.admin-page textarea,
+.admin-page button,
+.admin-page .admin-action,
+.admin-page .admin-profile__trigger,
+.admin-page .admin-profile__menu button,
+.admin-page .admin-profile__menu a {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .admin-dashboard {
   padding: 32px 80px 60px;
   max-width: 1400px;
@@ -31,7 +48,6 @@ a.navbar__logo {
   text-decoration: none;
 }
 
-/* ----- Top header strip ----- */
 .admin-top {
   background: #ffffff;
   border: 1px solid rgba(155, 27, 48, 0.15);
@@ -80,7 +96,7 @@ a.navbar__logo {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px 14px;
-  font-family: "CreatoDisplay", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: 300;
   font-size: 0.95rem;
 }
@@ -105,7 +121,7 @@ a.navbar__logo {
   border-radius: 50px;
   background: #fff;
   cursor: pointer;
-  font-family: "CreatoDisplay", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: 500;
   font-size: 0.95rem;
   color: #333;
@@ -159,7 +175,7 @@ a.navbar__logo {
   padding: 10px 12px;
   border: none;
   background: transparent;
-  font-family: "CreatoDisplay", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
   color: #9b1b30;
@@ -172,7 +188,6 @@ a.navbar__logo {
   background: #fdf0f0;
 }
 
-/* ----- Stats row ----- */
 .admin-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -189,6 +204,29 @@ a.navbar__logo {
   display: flex;
   align-items: flex-start;
   gap: 16px;
+}
+
+.admin-stat-card--clickable {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-stat-card--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.admin-stat-card__overlay-link {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  z-index: 3;
+}
+
+.admin-stat-card--clickable .admin-stat-card__icon,
+.admin-stat-card--clickable .admin-stat-card__body {
+  position: relative;
+  z-index: 1;
 }
 
 .admin-stat-card__icon {
@@ -248,7 +286,6 @@ a.navbar__logo {
   color: #1e7e34;
 }
 
-/* ----- Two-column main ----- */
 .admin-main {
   display: grid;
   grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
@@ -259,10 +296,14 @@ a.navbar__logo {
 .admin-panel {
   background: #ffffff;
   border-radius: 8px;
-  border-top: 3px solid #9b1b30;
+  border: 1px solid rgba(155, 27, 48, 0.12);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 24px;
   margin-bottom: 24px;
+}
+
+.admin-panel--no-accent {
+  border: 1px solid rgba(155, 27, 48, 0.12);
 }
 
 .admin-panel:last-child {
@@ -290,7 +331,6 @@ a.navbar__logo {
   text-align: right;
 }
 
-/* ----- Tables ----- */
 .admin-table-wrap {
   overflow-x: auto;
 }
@@ -341,7 +381,6 @@ a.navbar__logo {
   }
 }
 
-/* Tags / badges */
 .tag,
 .admin-tag {
   display: inline-block;
@@ -377,6 +416,11 @@ a.navbar__logo {
   color: #a86b00;
 }
 
+.admin-tag--declined {
+  background: rgba(155, 27, 48, 0.15);
+  color: #9b1b30;
+}
+
 .admin-tag--priority-high {
   background: rgba(155, 27, 48, 0.15);
   color: #9b1b30;
@@ -392,7 +436,6 @@ a.navbar__logo {
   color: #666;
 }
 
-/* Text-style actions */
 .admin-actions {
   display: flex;
   flex-wrap: wrap;
@@ -400,7 +443,7 @@ a.navbar__logo {
 }
 
 .admin-action {
-  font-family: "CreatoDisplay", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0;
@@ -443,6 +486,103 @@ a.navbar__logo {
   font-weight: 700;
 }
 
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: #f3d6d8;
+}
+
+.login-card {
+  width: min(100%, 460px);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(155, 27, 48, 0.14);
+  border-radius: 18px;
+  box-shadow: 0 24px 52px rgba(26, 58, 92, 0.16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 34px 30px 28px;
+}
+
+.login-card h1 {
+  color: #9b1b30;
+  font-size: 2rem;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  color: #5d6678;
+  font-size: 0.98rem;
+  margin-bottom: 20px;
+}
+
+.login-error {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(155, 27, 48, 0.28);
+  background: rgba(155, 27, 48, 0.08);
+  color: #7f1628;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.login-card form {
+  display: grid;
+  gap: 10px;
+}
+
+.login-card label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #24324a;
+  margin-top: 4px;
+}
+
+.login-card input {
+  width: 100%;
+  border: 1px solid #d8dce6;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.98rem;
+  color: #24324a;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #29abe2;
+  box-shadow: 0 0 0 3px rgba(41, 171, 226, 0.18);
+}
+
+.login-card .btn-primary {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-size: 1rem;
+}
+
+.login-back-link {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.login-back-link a {
+  color: #1a7398;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.login-back-link a:hover {
+  color: #9b1b30;
+}
+
 @media (max-width: 1024px) {
   .admin-dashboard {
     padding: 28px 40px 48px;
@@ -478,5 +618,18 @@ a.navbar__logo {
 
   .admin-profile {
     align-self: flex-end;
+  }
+
+  .login-wrap {
+    padding: 24px 16px;
+  }
+
+  .login-card {
+    padding: 26px 20px 22px;
+    border-radius: 16px;
+  }
+
+  .login-card h1 {
+    font-size: 1.75rem;
   }
 }

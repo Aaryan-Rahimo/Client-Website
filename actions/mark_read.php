@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Aaryan
+ * Date Created: 2026-04-04
+ * Description: Mark message as read actions for the clinic website.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

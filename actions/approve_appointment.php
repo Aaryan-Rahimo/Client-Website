@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Inderbir
+ * Date Created: 2026-04-12
+ * Description: Appointment approval action for the clinic web application.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -15,8 +21,10 @@ require_admin();
 verify_csrf();
 
 $id = (int) ($_POST['appointment_id'] ?? 0);
+$returnTo = trim((string) ($_POST['return_to'] ?? 'admin'));
+$target = ($returnTo === 'appointments') ? '../appointments.php' : '../admin.php';
 if ($id <= 0) {
-    header('Location: ../admin.php');
+    header('Location: ' . $target);
     exit;
 }
 
@@ -26,28 +34,12 @@ $stmt->execute([$id]);
 $row = $stmt->fetch();
 
 if (!$row) {
-    header('Location: ../admin.php');
+    header('Location: ' . $target);
     exit;
 }
 
 $upd = $db->prepare('UPDATE appointments SET status = \'Confirmed\' WHERE appointment_id = ?');
 $upd->execute([$id]);
 
-$prettyDate = format_date_long($row['date']);
-$prettyTime = format_time_ampm($row['time_start']);
-$name       = $row['patient_name'];
-$email      = $row['patient_email'];
-
-$body = "Hi {$name},\n\n"
-    . "Your appointment at Ruby's Dental Clinic is confirmed for {$prettyDate} at {$prettyTime}. We look forward to seeing you.\n\n"
-    . "If you need to reschedule, please reply to this email or call us.\n\n"
-    . "Best regards,\nRuby's Dental Clinic\n📞 905-000-0000";
-
-send_email(
-    $email,
-    "Your Appointment is Confirmed — Ruby's Dental Clinic",
-    $body
-);
-
-header('Location: ../admin.php');
+header('Location: ' . $target);
 exit;

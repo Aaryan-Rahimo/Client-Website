@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Author: Angad
+ * Date Created: 2026-04-14
+ * Description: Appointment rescheduling action for the clinic website, allowing admins to change the date and time of existing appointments while ensuring no scheduling conflicts occur.
+ */
+
 declare(strict_types=1);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -17,9 +23,11 @@ verify_csrf();
 $id       = (int) ($_POST['appointment_id'] ?? 0);
 $new_date = trim((string) ($_POST['new_date'] ?? ''));
 $new_time = trim((string) ($_POST['new_time'] ?? ''));
+$returnTo = trim((string) ($_POST['return_to'] ?? 'appointments'));
+$target = ($returnTo === 'admin') ? '../admin.php' : '../appointments.php';
 
 if ($id <= 0 || $new_date === '' || $new_time === '') {
-    header('Location: ../appointments.php?error=missing_fields');
+    header('Location: ' . $target . '?error=missing_fields');
     exit;
 }
 
@@ -31,7 +39,7 @@ $countStmt = $db->prepare(
 );
 $countStmt->execute([$new_date, $new_time, $id]);
 if ((int) $countStmt->fetchColumn() > 0) {
-    header('Location: ../appointments.php?error=time_taken');
+    header('Location: ' . $target . '?error=time_taken');
     exit;
 }
 
@@ -40,30 +48,14 @@ $sel->execute([$id]);
 $row = $sel->fetch();
 
 if (!$row) {
-    header('Location: ../appointments.php');
+    header('Location: ' . $target);
     exit;
 }
 
 $upd = $db->prepare(
-    'UPDATE appointments SET date = ?, time_start = ?, status = \'Rescheduled\' WHERE appointment_id = ?'
+    'UPDATE appointments SET date = ?, time_start = ?, status = \'Confirmed\' WHERE appointment_id = ?'
 );
 $upd->execute([$new_date, $new_time, $id]);
 
-$name  = $row['patient_name'];
-$email = $row['patient_email'];
-$pd    = format_date_long($new_date);
-$pt    = format_time_ampm($new_time);
-
-$body = "Hi {$name},\n\n"
-    . "Your appointment at Ruby's Dental Clinic has been rescheduled to {$pd} at {$pt}. "
-    . "Please contact us if this time does not work for you.\n\n"
-    . "Best regards,\nRuby's Dental Clinic\n📞 905-000-0000";
-
-send_email(
-    $email,
-    "Appointment Rescheduled — Ruby's Dental Clinic",
-    $body
-);
-
-header('Location: ../appointments.php?success=1');
+header('Location: ' . $target . '?success=1');
 exit;
